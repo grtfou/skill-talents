@@ -4,6 +4,7 @@ import { createStorage, STORAGE_KEY } from './storage.js';
 import { saveProgress, isProgressStorageEvent } from './progress.js';
 
 const $ = id => document.getElementById(id);
+const desktopMode = window.location.protocol === 'skill-talents:';
 const escapeHTML = text => String(text).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const engine = createEngine(curriculum);
 const persistence = createStorage(engine, curriculum, {
@@ -107,7 +108,7 @@ function renderHeader() {
   $('sidebar-count').textContent = `/ ${summary.count} 技能`;
   $('sidebar-progress').style.width = `${summary.hours / summary.total * 100}%`;
   $('save-status').textContent = storageError ? '進度尚未儲存' : '進度自動儲存';
-  $('save-detail').textContent = storageError ? '請匯出備份保留進度' : lastSaved ? `上次儲存 ${lastSaved}` : '儲存於這個瀏覽器';
+  $('save-detail').textContent = storageError ? '請匯出備份保留進度' : lastSaved ? `上次儲存 ${lastSaved}` : desktopMode ? '儲存在這台電腦' : '儲存於這個瀏覽器';
   const branch = branchFor(branchId);
   $('branch-number').textContent = query ? '⌕' : roman[curriculum.branches.indexOf(branch)];
   $('branch-english').textContent = query ? 'SEARCH THE ARCHIVES' : branch.english;
@@ -234,7 +235,7 @@ $('reset-button').addEventListener('click', () => {
   $('cancel-reset').addEventListener('click', () => $('modal').close());
   $('confirm-reset').addEventListener('click', () => { $('modal').close(); protectedSave = false; commit({}, '已重置，新的旅程從這裡開始。'); });
 });
-$('help-button').addEventListener('click', () => showModal(`<div class="eyebrow">YOUR FIRST ADVENTURE</div><h2>你的每一小時，都算數。</h2><ol><li><strong>選一條路線。</strong>先從符文基礎的字母、音標或句子開始；不必一次學完整棵樹。</li><li><strong>看看要學什麼。</strong>點技能名稱，右側會顯示內容、先備技能與自我檢核。</li><li><strong>學一小時，點一次圖示。</strong>也能用詳情裡的「投入 1 小時」。例如 3/20，代表已記錄 3 小時，這項預算為 20 小時。</li><li><strong>點錯可以收回。</strong>用「−」退回一小時；如果後續技能已投入，需先由後往前退點。</li><li><strong>完成先備，就能解鎖。</strong>多個先備需要全部滿點。灰色技能仍可點名稱查看內容。</li></ol><p>進度會自動存在<strong>同一台裝置、同一瀏覽器、同一網址</strong>。更換瀏覽器、無痕模式或清除網站資料可能失去進度，請定期匯出旅程。</p><p>這是學習進度工具，教材與測驗需自行準備。點滿不等於已通過能力檢核或取得 900 分。</p>`));
+$('help-button').addEventListener('click', () => showModal(`<div class="eyebrow">YOUR FIRST ADVENTURE</div><h2>先學習，再幫自己加一點。</h2><ol><li><strong>先選技能。</strong>第一次學英文，可以從「符文基礎」的「初始字母之印」開始。</li><li><strong>點名字，看說明。</strong>「學習內容」會告訴你今天要學什麼。</li><li><strong>學滿一小時，加一點。</strong>點一次圖案，或按「＋ 投入 1 小時」。不用連續學一小時，可以分幾次累計。</li><li><strong>點錯不用怕。</strong>按「−」減一點。如果後面的技能已經加過點，要先把後面的點數退回來。</li><li><strong>灰色技能先等等。</strong>看看它的「先備技能」，把前面的時數記滿，就能往前走。</li></ol><p>${desktopMode ? '程式會記住這台電腦、這個使用者帳號的進度。' : '網頁會記住這個瀏覽器、這個網址的進度。'}每週按一次「匯出旅程」，把備份留好。換電腦時，就能帶著紀錄繼續學。</p><p>這是記錄學習的工具。課本、影片和題目要另外準備；點滿不等於已學會或考到 900 分。</p><p><a href="help.html" target="_blank" rel="noopener">完整操作說明：開啟、加點、備份與換電腦 ↗</a></p>`));
 $('class-button').addEventListener('click', () => showModal('<div class="eyebrow">CHOOSE YOUR PATH</div><h2>下一段旅程，等待展開。</h2><div class="class-option active"><strong>Eng-TOEIC</strong><small>目前職業 · 聽力與閱讀 900+</small></div><div class="class-option"><strong>日語</strong><small>規劃中</small></div><div class="class-option"><strong>素描畫</strong><small>規劃中</small></div><p>初版提供 Eng-TOEIC。其他職業可沿用同一套技能與先備資料結構新增；英語交流會獨立成另一套 Eng- 職業。</p>'));
 window.addEventListener('storage', event => {
   if (!isProgressStorageEvent(event, window.localStorage, STORAGE_KEY)) return;
