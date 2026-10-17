@@ -1,0 +1,8 @@
+{
+  "name": "skill-talents",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "本機單人學習天賦樹，以 Eng-TOEIC 900+ 為第一套職業。",
+  "scripts": { "test": "node --test", "start": "python3 start.py" }
+}
