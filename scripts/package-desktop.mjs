@@ -1,11 +1,11 @@
 import { build, Platform, Arch } from 'electron-builder';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
-import { createHash } from 'node:crypto';
-import { readdir, readFile, writeFile, copyFile, rm } from 'node:fs/promises';
+import { readFile, copyFile, rm } from 'node:fs/promises';
 import path from 'node:path';
 import { verifyDesktopPackage, packagePaths } from './verify-desktop.mjs';
 import { normalizeZipUtf8 } from './zip-utf8.mjs';
+import { writeBuildChecksums } from './write-checksums.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const target = process.argv[2];
@@ -21,8 +21,8 @@ if (target === 'win32') targets.set(Platform.WINDOWS, new Map([[Arch.ia32, ['zip
 await build({ projectDir: root, config: path.join(root, 'electron-builder.cjs'), targets, publish: 'never' });
 for (const file of packagePaths(target)) await verifyDesktopPackage(file);
 const release = path.join(root, 'release');
+const { version } = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
 if (['mac', 'all'].includes(target)) {
-  const { version } = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
   const archive = path.join(release, `SkillTalents-${version}-mac-x64.zip`);
   await rm(archive, { force: true });
   await rm(`${archive}.blockmap`, { force: true });
@@ -31,7 +31,5 @@ if (['mac', 'all'].includes(target)) {
   await normalizeZipUtf8(archive);
 }
 await copyFile(path.join(root, 'app/help.html'), path.join(release, '操作說明.html'));
-const archives = (await readdir(release)).filter(name => /^SkillTalents-.*\.zip$/.test(name)).sort();
-const checksums = await Promise.all(archives.map(async name => `${createHash('sha256').update(await readFile(path.join(release, name))).digest('hex')}  ${name}`));
-await writeFile(path.join(release, 'SHA256SUMS.txt'), checksums.join('\n') + '\n');
+await writeBuildChecksums(release, version, target);
 console.log('應用程式與 SHA256SUMS.txt 已產生於 release/。');
