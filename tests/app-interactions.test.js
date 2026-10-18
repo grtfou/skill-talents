@@ -14,7 +14,10 @@ function loadApp(data = curriculum) {
   function element(id) {
     if (!elements.has(id)) elements.set(id, {
       style: {}, dataset: {}, innerHTML: '', textContent: '', hidden: false,
-      addEventListener() {}, setAttribute() {}, contains() { return false; },
+      listeners: new Map(),
+      addEventListener(type, handler) { this.listeners.set(type, handler); },
+      showModal() { this.open = true; }, close() { this.open = false; },
+      setAttribute() {}, contains() { return false; },
       querySelector() { return { focus() { focused = id; } }; },
     });
     return elements.get(id);
@@ -82,6 +85,9 @@ test('刪除原始首節點後，初始選取來自剩餘資料', () => {
   data.skills.find(skill => skill.id === 'f02').prerequisites = [];
   const app = loadApp(data);
   assert.match(app.element('tree-content').innerHTML, /skill-node available selected[^>]+data-node="f02"/);
+  app.element('help-button').listeners.get('click')();
+  assert.match(app.element('modal-content').innerHTML, /可以從「符文基礎」的「雙生字母契約」開始/);
+  assert.doesNotMatch(app.element('modal-content').innerHTML, /初始字母之印/);
   app.click({ add: 'f02' }, { icon: true });
   assert.deepEqual(JSON.parse(app.storage.get(STORAGE_KEY)).points, { f02: 1 });
 });
@@ -100,4 +106,19 @@ test('刪光某分支或全部技能後，導覽、切換與進度條仍可顯�
   const empty = loadApp(data);
   assert.equal(empty.element('sidebar-progress').style.width, '0%');
   assert.match(empty.element('sidebar-count').textContent, /0 技能/);
+});
+
+test('教學推薦無需先備的起點，安全顯示名稱，空課程則不推薦技能', () => {
+  const data = structuredClone(curriculum);
+  const root = { ...data.skills.find(skill => skill.id === 'f07'), title: '<新起點 & "技能">' };
+  data.skills = [{ ...data.skills[1], prerequisites: [root.id] }, root];
+  const app = loadApp(data);
+  app.element('help-button').listeners.get('click')();
+  assert.match(app.element('modal-content').innerHTML, /&lt;新起點 &amp; &quot;技能&quot;&gt;/);
+  assert.doesNotMatch(app.element('modal-content').innerHTML, /雙生字母契約/);
+  data.skills = [];
+  const empty = loadApp(data);
+  empty.element('help-button').listeners.get('click')();
+  assert.match(empty.element('modal-content').innerHTML, /目前還沒有技能/);
+  assert.doesNotMatch(empty.element('modal-content').innerHTML, /可以從「/);
 });

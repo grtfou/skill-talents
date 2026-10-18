@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const required = ['app/index.html', 'app/help.html', 'app/styles.css', 'app/js/app.js', 'app/js/skill-popover.js', 'app/js/domain.js', 'app/js/storage.js', 'app/js/progress.js', 'app/data/curriculum.js', 'desktop/main.cjs', 'desktop/protocol.cjs'];
+const required = ['app/index.html', 'app/help.html', 'app/styles.css', 'app/assets/class-emblem.svg', 'app/js/app.js', 'app/js/skill-popover.js', 'app/js/domain.js', 'app/js/storage.js', 'app/js/progress.js', 'app/data/curriculum.js', 'desktop/main.cjs', 'desktop/protocol.cjs'];
 
 export function normalizeAsarPath(entry) { return entry.replaceAll('\\', '/'); }
 

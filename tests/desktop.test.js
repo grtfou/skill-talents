@@ -49,6 +49,8 @@ test('桌面設定只打包應用資產，內含執行環境且不自動發布',
 test('操作說明可離線讀取，包含開啟、加退點、備份和舊進度搬移', async () => {
   const guide = await readFile(path.join(root, 'help.html'), 'utf8');
   for (const text of ['第一次玩就上手', '解壓縮全部', 'SkillTalents.exe', 'Mac Intel', '3 / 20', '先把小寫字母', '匯入備份', '以前用網頁版', '無法儲存']) assert.ok(guide.includes(text), text);
+  assert.match(guide, /無需先備技能/);
+  assert.doesNotMatch(guide, /初始字母之印|雙生字母契約/);
   assert.doesNotMatch(guide, /<(?:script|link)\b[^>]*(?:src|href)=["']https?:/i);
   assert.match(CONTENT_SECURITY_POLICY, /script-src 'self'/);
   assert.match(CONTENT_SECURITY_POLICY, /connect-src 'none'/);

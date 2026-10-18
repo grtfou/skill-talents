@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="crown" data-palette="amber">
+<title>九百星冠：900+ 目標檢核與後續計畫</title>
+<defs><radialGradient id="bg"><stop stop-color="#75461e"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#fff0b5"/><stop offset=".45" stop-color="#e5b45f"/><stop offset="1" stop-color="#75461e"/></linearGradient></defs>
+<g fill="url(#bg)" stroke="#e5b45f" stroke-width="1.2"><rect x="4" y="4" width="56" height="56" rx="15"/></g>
+<circle cx="32" cy="32" r="24" fill="none" stroke="#e5b45f" opacity=".15"/>
+<path d="m9 9 3 3m40 40 3 3M9 55l3-3M52 12l3-3" stroke="#fff0b5" opacity=".65"/>
+<style>.shine{fill:none;stroke:#fff0b5;stroke-width:1.5}</style>
+<g fill="url(#art)" stroke="#e5b45f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m10 21 12 8 10-16 10 16 12-8-6 28H16Z"/><path class="shine" d="M17 42h30m-15-8 3 4-3 4-3-4Z"/><circle cx="10" cy="19" r="3"/><circle cx="32" cy="11" r="3"/><circle cx="54" cy="19" r="3"/></g>
+</svg>

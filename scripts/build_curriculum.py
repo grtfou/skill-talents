@@ -117,14 +117,15 @@ def build(source_path=SOURCE, output_root=ROOT):
     output_root = Path(output_root)
     for relative in ("app/data", "app/assets/icons", "docs"):
         (output_root / relative).mkdir(parents=True, exist_ok=True)
+    # 先清理再寫入，確保只改 ID 大小寫時也能建立正確檔名，避免刪掉新圖示。
+    # 此資料夾僅放產生器管理的 SVG，職業圖示另放於 app/assets/。
+    for path in (output_root / "app/assets/icons").glob("*.svg"):
+        if path.stem not in icons:
+            path.unlink()
     for identifier, svg in icons.items():
         (output_root / "app/assets/icons" / f"{identifier}.svg").write_text(svg, encoding="utf-8")
     (output_root / "app/data/curriculum.js").write_text("// 由 scripts/build_curriculum.py 產生；請修改來源後重建。\nexport default " + json.dumps(data, ensure_ascii=False, indent=2) + ";\n", encoding="utf-8")
     (output_root / "docs/技能目錄.md").write_text(catalog, encoding="utf-8")
-    # 此資料夾僅放產生器管理的 SVG，刪除節點時一併清掉舊產物。
-    for path in (output_root / "app/assets/icons").glob("*.svg"):
-        if path.stem not in icons:
-            path.unlink()
     total = sum(skill["hours"] for skill in skills)
     print(f"已產生 {len(skills)} 項技能、{total} 小時及 {len(skills)} 個原創 SVG 徽章。")
     return data

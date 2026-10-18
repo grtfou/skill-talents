@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, readFileSync, writeFileSync, existsSync, readdirSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync, existsSync, readdirSync, rmSync, copyFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -133,6 +133,34 @@ test('刪光技能可建置空課程，並清理產生器管理的圖示', t => 
   assert.equal(engine.summary({}).count, 0);
   assert.equal(engine.summary({}).total, 0);
   assert.deepEqual(readdirSync(work.path('app/assets/icons')), []);
+});
+
+test('技能 ID 只改大小寫後，圖示仍存在且使用正確檔名與內容', t => {
+  const work = workspace(t), data = fixture();
+  data.skills = [{ ...data.skills[0], id: 'case-skill' }];
+  work.build(data);
+  data.skills[0].id = 'CASE-SKILL';
+  data.skills[0].title = '更新後的技能';
+  const built = work.build(data);
+  assert.deepEqual(readdirSync(work.path('app/assets/icons')), ['CASE-SKILL.svg']);
+  assert.match(work.read(`app/${built.skills[0].icon}`), /<title>更新後的技能/);
+  assert.equal(createEngine(built).change({}, 'CASE-SKILL', 1).ok, true);
+});
+
+test('刪除 e16 或全部技能後，首頁引用的職業圖示仍完整', t => {
+  const work = workspace(t), data = structuredClone(source);
+  work.build(data);
+  for (const asset of ['app/index.html', 'app/assets/class-emblem.svg']) {
+    copyFileSync(join(root, asset), work.path(asset));
+  }
+  const emblem = work.read('app/assets/class-emblem.svg');
+  const references = [...work.read('app/index.html').matchAll(/\b(?:href|src)="(assets\/[^\"]+\.svg)"/g)].map(match => match[1]);
+  assert.equal(references.length, 2, 'favicon 與職業卡片都需有圖示');
+  for (const skills of [data.skills.filter(skill => skill.id !== 'e16'), []]) {
+    work.build({ ...data, skills });
+    assert.equal(existsSync(work.path('app/assets/icons/e16.svg')), false);
+    for (const asset of references) assert.equal(work.read(`app/${asset}`), emblem);
+  }
 });
 
 test('遺留引用、重複 ID、非法先備與循環在寫入前拒絕，既有產物保持完整', t => {
