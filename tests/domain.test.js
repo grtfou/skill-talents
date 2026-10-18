@@ -140,6 +140,14 @@ test('JSON 匯出匯入保留所有資料並驗證版本', () => {
   assert.throws(() => persistence.parse(JSON.stringify({ ...data, classId: 'Eng-Other' })), /不相容/);
   assert.throws(() => persistence.parse(JSON.stringify({ ...data, curriculumVersion: 'future' })), /課程版本不相容/);
 });
+test('架構文件中的備份範例可依目前課程版本匯入', () => {
+  const architecture = readFileSync(new URL('../docs/系統架構.md', import.meta.url), 'utf8');
+  const example = [...architecture.matchAll(/```json\n([\s\S]*?)\n```/g)]
+    .map(match => JSON.parse(match[1])).find(value => value.classId);
+  assert.ok(example, '需保留可使用的備份格式範例');
+  const persistence = createStorage(engine, curriculum, memory());
+  assert.deepEqual(persistence.parse(JSON.stringify(example)), { f01: 8, f02: 3 });
+});
 test('新版不把舊課程時數直接認作新技能，讀取失敗保留原始資料', () => {
   assert.equal(curriculum.curriculumVersion, '2026.10.2');
   const store = memory(), persistence = createStorage(engine, curriculum, store);

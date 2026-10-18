@@ -5,6 +5,7 @@ export default {
   "id": "Eng-TOEIC",
   "name": "英語行者",
   "target": "TOEIC L&R 900+",
+  "startingSkillId": "e01",
   "branches": [
     {
       "id": "foundation",
