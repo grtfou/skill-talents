@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="chest" data-palette="amber">
-<title>詞彙守庫試煉：語境詞彙整合</title>
+<title>詞彙遷移任務：生活、職場與陌生材料整合</title>
 <defs><radialGradient id="bg"><stop stop-color="#75461e"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#fff0b5"/><stop offset=".45" stop-color="#e5b45f"/><stop offset="1" stop-color="#75461e"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#e5b45f" stroke-width="1.2"><path d="m32 2 26 15v30L32 62 6 47V17Z"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#e5b45f" opacity=".15"/>

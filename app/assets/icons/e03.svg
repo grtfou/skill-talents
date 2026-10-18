@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="castle" data-palette="blue">
-<title>記憶護城：複習排程與錯題循環</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="rewind" data-palette="blue">
+<title>複習與遷移：跨日提取、交錯與錯題循環</title>
 <defs><radialGradient id="bg"><stop stop-color="#354b95"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#e1edff"/><stop offset=".45" stop-color="#83b5fc"/><stop offset="1" stop-color="#354b95"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#83b5fc" stroke-width="1.2"><path d="M19 3h26l16 16v26L45 61H19L3 45V19Z"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#83b5fc" opacity=".15"/>
 <path d="m9 9 3 3m40 40 3 3M9 55l3-3M52 12l3-3" stroke="#e1edff" opacity=".65"/>
 <style>.shine{fill:none;stroke:#e1edff;stroke-width:1.5}</style>
-<g fill="url(#art)" stroke="#83b5fc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17h7v8h6v-8h7v8h7v-8h7v8h7v28H11Z"/><path class="shine" d="M27 53V40a6 6 0 0 1 12 0v13M17 33h4m23 0h4M32 11v13"/></g>
+<g fill="url(#art)" stroke="#83b5fc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 24a20 20 0 1 1 1 23l7-5a12 12 0 1 0 0-18l7 6H10V10Z"/><path class="shine" d="M33 23v11l7 5"/></g>
 </svg>

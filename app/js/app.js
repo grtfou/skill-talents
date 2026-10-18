@@ -14,8 +14,10 @@ const persistence = createStorage(engine, curriculum, {
 });
 const initial = persistence.read();
 let points = initial.points;
-let branchId = curriculum.branches[0].id;
-let selectedId = curriculum.skills.find(skill => skill.branch === branchId)?.id ?? null;
+const startingSkill = curriculum.skills.find(skill => skill.id === curriculum.startingSkillId && skill.prerequisites.length === 0)
+  ?? curriculum.skills.find(skill => skill.prerequisites.length === 0);
+let branchId = startingSkill?.branch ?? curriculum.branches[0].id;
+let selectedId = startingSkill?.id ?? null;
 let query = '';
 let listView = false;
 let protectedSave = !!initial.raw && !!initial.error;
@@ -196,6 +198,11 @@ function jump(id) {
 }
 
 function exportProgress() {
+  if (protectedSave && recoveryRaw) {
+    download(recoveryRaw, 'skill-talents-recovery.json');
+    toast('已匯出原始進度資料，請保留下載的 JSON 檔案。');
+    return;
+  }
   download(JSON.stringify(persistence.envelope(points), null, 2), `Eng-TOEIC-${new Date().toISOString().slice(0, 10)}.json`);
   toast('旅程備份已匯出，請保留下載的 JSON 檔案。');
 }
@@ -260,7 +267,7 @@ $('reset-button').addEventListener('click', () => {
   $('confirm-reset').addEventListener('click', () => { $('modal').close(); protectedSave = false; commit({}, '已重置，新的旅程從這裡開始。'); });
 });
 $('help-button').addEventListener('click', () => {
-  const first = curriculum.skills.find(skill => skill.prerequisites.length === 0);
+  const first = startingSkill;
   const recommendation = first
     ? `可以從「${escapeHTML(branchFor(first.branch).name)}」的「${escapeHTML(first.title)}」開始。`
     : '目前還沒有技能，新增課程後即可開始。';

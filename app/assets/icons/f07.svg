@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="tablet" data-palette="blue">
-<title>聆音石碑：KK 音標入門</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="ear" data-palette="blue">
+<title>聽音與音標：先聽後說、KK／IPA 查音入門</title>
 <defs><radialGradient id="bg"><stop stop-color="#354b95"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#e1edff"/><stop offset=".45" stop-color="#83b5fc"/><stop offset="1" stop-color="#354b95"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#83b5fc" stroke-width="1.2"><rect x="4" y="4" width="56" height="56" rx="15"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#83b5fc" opacity=".15"/>
 <path d="m9 9 3 3m40 40 3 3M9 55l3-3M52 12l3-3" stroke="#e1edff" opacity=".65"/>
 <style>.shine{fill:none;stroke:#e1edff;stroke-width:1.5}</style>
-<g fill="url(#art)" stroke="#83b5fc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m20 13 23 1 6 9-3 28H17l-2-30Z"/><path class="shine" d="M23 23h16m-16 7h19m-19 7h12m-12 7h17M33 14l-3 7 4 5"/></g>
+<g fill="url(#art)" stroke="#83b5fc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M25 46c0-7-9-8-9-19a16 16 0 0 1 32 0c0 9-8 11-9 18-1 13-14 13-14 1Z"/><path class="shine" d="M24 27a8 8 0 0 1 16 0c0 7-9 5-8 14M53 18q8 9 0 19"/></g>
 </svg>

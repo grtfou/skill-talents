@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="shield" data-palette="blue">
-<title>子音守衛：清濁子音與口形</title>
+<title>子音清晰度：清濁、易混子音與子音群</title>
 <defs><radialGradient id="bg"><stop stop-color="#354b95"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#e1edff"/><stop offset=".45" stop-color="#83b5fc"/><stop offset="1" stop-color="#354b95"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#83b5fc" stroke-width="1.2"><rect x="4" y="4" width="56" height="56" rx="15"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#83b5fc" opacity=".15"/>

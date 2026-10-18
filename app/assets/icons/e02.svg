@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="puzzle" data-palette="jade">
-<title>裂隙修補：基礎錯因補強</title>
+<title>錯因與補強：聽說讀寫的最小練習</title>
 <defs><radialGradient id="bg"><stop stop-color="#236d72"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#d4ffed"/><stop offset=".45" stop-color="#68d5b4"/><stop offset="1" stop-color="#236d72"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#68d5b4" stroke-width="1.2"><path d="m32 2 26 15v30L32 62 6 47V17Z"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#68d5b4" opacity=".15"/>

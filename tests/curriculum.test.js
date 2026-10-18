@@ -48,6 +48,48 @@ test('明確來源重建後，現有課程、168 個圖示與技能目錄逐位�
   }
 });
 
+function ancestors(id, found = new Set()) {
+  for (const parent of curriculum.skills.find(skill => skill.id === id).prerequisites) {
+    if (found.has(parent)) continue;
+    found.add(parent);
+    ancestors(parent, found);
+  }
+  return found;
+}
+
+test('成人起點、回想與生活聽說可立即開始，辨音不被整套拼讀鎖住', () => {
+  const engine = createEngine(curriculum);
+  for (const id of ['e01', 'v31', 'f13']) assert.equal(engine.unlocked({}, id), true, id);
+  assert.equal(engine.skills.get('v31').level, 0, '回想工具需顯示在欄位起點');
+  for (const id of ['f01', 'f02', 'f05', 'f06', 'f09']) {
+    assert.equal(ancestors('l01').has(id), false, id);
+  }
+  for (const id of ['f13', 'f15', 'f19', 'f23']) assert.ok(ancestors('f24').has(id), id);
+});
+
+test('最終整合涵蓋說寫任務，但不強迫修完低頻文法與無關產業詞彙', () => {
+  const required = ancestors('e16');
+  for (const id of ['g18', 'g26', 'g27', 'g32', 'g36', 'g40', 'l21', 'r14', 'v31', 'v32', 'e04']) {
+    assert.ok(required.has(id), id);
+  }
+  for (const id of ['g17', 'g25', 'g29', 'g34', 'v02', 'v06', 'v24']) {
+    assert.equal(required.has(id), false, id);
+  }
+});
+
+test('自主聽後重述與詞彙遷移不能跳過初階四技基礎', () => {
+  const engine = createEngine(curriculum);
+  for (const id of ['l06', 'v32']) {
+    assert.ok(ancestors(id).has('f24'), id);
+    const skill = engine.skills.get(id);
+    const points = Object.fromEntries(skill.prerequisites
+      .filter(parent => parent !== 'f24')
+      .map(parent => [parent, engine.skills.get(parent).hours]));
+    assert.equal(engine.unlocked(points, id), false, id);
+    assert.equal(engine.unlocked({ ...points, f24: engine.skills.get('f24').hours }, id), true, id);
+  }
+});
+
 test('插入任意 ID 的技能不會重編其他 ID 或隱含改接先備，且自動產生圖示', t => {
   const work = workspace(t), data = fixture();
   const added = { ...data.skills[0], id: 'new-skill', art: { motif: 'key', palette: 'jade' } };

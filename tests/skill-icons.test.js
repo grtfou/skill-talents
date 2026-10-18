@@ -20,9 +20,22 @@ test('各路線的小技能具備多種物件與配色，不以細小文字區�
   }
 });
 
-test('具體物件名稱與圖示相符：火種、火花、水晶、終端、鑰匙與沙漏', () => {
+test('拼讀、動作、母音、資訊與時間等技能保留對應的語意圖樣', () => {
   for (const [id, motif] of Object.entries({
     f03: 'flame', f04: 'key', f08: 'crystal', f15: 'hourglass',
     f17: 'spark', v22: 'terminal', l23: 'crystal', e11: 'hourglass',
+  })) assert.equal(attribute(icons.get(id), 'motif'), motif, id);
+});
+
+test('所有圖示使用小技能來源指定的圖樣、配色與新版名稱主題', () => {
+  const source = JSON.parse(readFileSync(new URL('../scripts/curriculum_source.json', import.meta.url), 'utf8'));
+  for (const skill of source.skills) {
+    const svg = icons.get(skill.id);
+    assert.equal(attribute(svg, 'motif'), skill.art.motif, skill.id);
+    assert.equal(attribute(svg, 'palette'), skill.art.palette, skill.id);
+    assert.ok(svg.includes(`<title>${skill.title}：${skill.topic}</title>`), skill.id);
+  }
+  for (const [id, motif] of Object.entries({
+    f07: 'ear', l01: 'ear', v31: 'rewind', g18: 'chart', g26: 'table', g27: 'quill',
   })) assert.equal(attribute(icons.get(id), 'motif'), motif, id);
 });
