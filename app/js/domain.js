@@ -20,7 +20,7 @@ export function createEngine(curriculum) {
     visited.add(id);
   }
   skills.forEach(skill => visit(skill.id));
-  const value = (points, id) => points[id] ?? 0;
+  const value = (points, id) => Object.hasOwn(points, id) ? points[id] ?? 0 : 0;
   const unlocked = (points, id) => skills.get(id).prerequisites.every(dep => value(points, dep) === skills.get(dep).hours);
   const blockers = (points, id) => dependents.get(id).filter(dep => value(points, dep) > 0);
 

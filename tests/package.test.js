@@ -40,3 +40,11 @@ test('若技能浮窗模組缺少，建置驗證會拒絕無法啟動的套件',
   await createPackage(source, archive);
   await assert.rejects(verifyDesktopPackage(archive), /缺少必要檔案：app\/js\/skill-popover.js/);
 });
+
+test('缺少獨立職業圖示時拒絕產出首頁圖片失效的套件', async t => {
+  const { folder, source } = await fixture(t);
+  await rm(path.join(source, 'app/assets/class-emblem.svg'));
+  const archive = path.join(folder, 'missing-emblem.asar');
+  await createPackage(source, archive);
+  await assert.rejects(verifyDesktopPackage(archive), /缺少必要檔案：app\/assets\/class-emblem.svg/);
+});

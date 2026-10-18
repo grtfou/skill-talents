@@ -14,8 +14,8 @@ const persistence = createStorage(engine, curriculum, {
 });
 const initial = persistence.read();
 let points = initial.points;
-let branchId = 'foundation';
-let selectedId = 'f01';
+let branchId = curriculum.branches[0].id;
+let selectedId = curriculum.skills.find(skill => skill.branch === branchId)?.id ?? null;
 let query = '';
 let listView = false;
 let protectedSave = !!initial.raw && !!initial.error;
@@ -97,7 +97,7 @@ function renderNavigation() {
   $('branch-nav').innerHTML = curriculum.branches.map(branch => {
     const first = curriculum.skills.find(skill => skill.branch === branch.id);
     const summary = engine.summary(points, branch.id);
-    return `<button class="branch-button ${branch.id === branchId && !query ? 'active' : ''}" data-branch="${branch.id}" ${branch.id === branchId && !query ? 'aria-current="page"' : ''}><img src="${first.icon}" alt=""><span>${branch.name}</span><span class="branch-count">${summary.completed}/${summary.count}</span></button>`;
+    return `<button class="branch-button ${branch.id === branchId && !query ? 'active' : ''}" data-branch="${branch.id}" ${branch.id === branchId && !query ? 'aria-current="page"' : ''}>${first ? `<img src="${first.icon}" alt="">` : ''}<span>${branch.name}</span><span class="branch-count">${summary.completed}/${summary.count}</span></button>`;
   }).join('');
 }
 
@@ -108,7 +108,7 @@ function renderHeader() {
   $('available-skills').innerHTML = `${summary.available} <em>項技能</em>`;
   $('sidebar-completed').textContent = summary.completed;
   $('sidebar-count').textContent = `/ ${summary.count} 技能`;
-  $('sidebar-progress').style.width = `${summary.hours / summary.total * 100}%`;
+  $('sidebar-progress').style.width = `${summary.total ? summary.hours / summary.total * 100 : 0}%`;
   $('save-status').textContent = storageError ? '進度尚未儲存' : '進度自動儲存';
   $('save-detail').textContent = storageError ? '請匯出備份保留進度' : lastSaved ? `上次儲存 ${lastSaved}` : desktopMode ? '儲存在這台電腦' : '儲存於這個瀏覽器';
   const branch = branchFor(branchId);
@@ -129,6 +129,10 @@ function renderTree() {
   const list = query ? curriculum.skills.filter(skill => `${skill.id} ${skill.title} ${skill.topic} ${skill.description} ${branchFor(skill.branch).name}`.toLocaleLowerCase().includes(query.toLocaleLowerCase())) : curriculum.skills.filter(skill => skill.branch === branchId);
   if (query || listView) {
     $('tree-content').innerHTML = `<div class="skill-list">${query ? `<h3>找到 ${list.length} 項技能</h3>` : ''}${list.length ? list.map(skill => `<button class="list-item ${skill.id === selectedId ? 'selected' : ''}" data-select="${skill.id}" data-preview="${skill.id}" aria-haspopup="dialog" aria-controls="skill-popover" aria-expanded="false"><img src="${skill.icon}" alt=""><span><strong>${skill.title}</strong><small>${skill.topic} · ${branchFor(skill.branch).name} · ${statusLabel(status(skill))}</small></span><b>${pointText(skill)}</b></button>`).join('') : '<div class="empty-state"><strong>尚未找到這道符文</strong>試試「字母」、「假設句」或「聽力」。</div>'}</div>`;
+    return;
+  }
+  if (!list.length) {
+    $('tree-content').innerHTML = '<div class="empty-state"><strong>這條路線尚無技能</strong></div>';
     return;
   }
   const width = 760, columnWidth = 190, rowHeight = 159, top = 65;
@@ -212,7 +216,7 @@ document.addEventListener('click', event => {
     branchId = target.dataset.branch;
     query = '';
     $('search').value = '';
-    if (engine.skills.get(selectedId).branch !== branchId) selectedId = curriculum.skills.find(skill => skill.branch === branchId).id;
+    if (engine.skills.get(selectedId)?.branch !== branchId) selectedId = curriculum.skills.find(skill => skill.branch === branchId)?.id ?? null;
     $('tree').scrollTop = 0;
     $('tree').scrollLeft = 0;
     render();
@@ -255,7 +259,13 @@ $('reset-button').addEventListener('click', () => {
   $('cancel-reset').addEventListener('click', () => $('modal').close());
   $('confirm-reset').addEventListener('click', () => { $('modal').close(); protectedSave = false; commit({}, '已重置，新的旅程從這裡開始。'); });
 });
-$('help-button').addEventListener('click', () => showModal(`<div class="eyebrow">YOUR FIRST ADVENTURE</div><h2>先學習，再幫自己加一點。</h2><ol><li><strong>先選技能。</strong>第一次學英文，可以從「符文基礎」的「初始字母之印」開始。</li><li><strong>查看技能詳情。</strong>滑鼠移到技能上，或用 Tab 聚焦即可預覽；點名稱可固定浮窗，查看學習內容、自我檢核及先備技能，按 Esc 或 × 關閉。</li><li><strong>學滿一小時，加一點。</strong>點一次圖案，或按「＋ 投入 1 小時」。不用連續學一小時，可以分幾次累計。</li><li><strong>點錯不用怕。</strong>按「−」減一點。如果後面的技能已經加過點，要先把後面的點數退回來。</li><li><strong>未解鎖的技能先等等。</strong>看看它的「先備技能」，把前面的時數記滿，就能往前走。</li></ol><p>${desktopMode ? '程式會記住這台電腦、這個使用者帳號的進度。' : '網頁會記住這個瀏覽器、這個網址的進度。'}每週按一次「匯出旅程」，把備份留好。換電腦時，就能帶著紀錄繼續學。</p><p>這是記錄學習的工具。課本、影片和題目要另外準備；點滿不等於已學會或考到 900 分。</p><p><a href="help.html" target="_blank" rel="noopener">完整操作說明：開啟、加點、備份與換電腦 ↗</a></p>`));
+$('help-button').addEventListener('click', () => {
+  const first = curriculum.skills.find(skill => skill.prerequisites.length === 0);
+  const recommendation = first
+    ? `可以從「${escapeHTML(branchFor(first.branch).name)}」的「${escapeHTML(first.title)}」開始。`
+    : '目前還沒有技能，新增課程後即可開始。';
+  showModal(`<div class="eyebrow">YOUR FIRST ADVENTURE</div><h2>先學習，再幫自己加一點。</h2><ol><li><strong>先選技能。</strong>${recommendation}</li><li><strong>查看技能詳情。</strong>滑鼠移到技能上，或用 Tab 聚焦即可預覽；點名稱可固定浮窗，查看學習內容、自我檢核及先備技能，按 Esc 或 × 關閉。</li><li><strong>學滿一小時，加一點。</strong>點一次圖案，或按「＋ 投入 1 小時」。不用連續學一小時，可以分幾次累計。</li><li><strong>點錯不用怕。</strong>按「−」減一點。如果後面的技能已經加過點，要先把後面的點數退回來。</li><li><strong>未解鎖的技能先等等。</strong>看看它的「先備技能」，把前面的時數記滿，就能往前走。</li></ol><p>${desktopMode ? '程式會記住這台電腦、這個使用者帳號的進度。' : '網頁會記住這個瀏覽器、這個網址的進度。'}每週按一次「匯出旅程」，把備份留好。換電腦時，就能帶著紀錄繼續學。</p><p>這是記錄學習的工具。課本、影片和題目要另外準備；點滿不等於已學會或考到 900 分。</p><p><a href="help.html" target="_blank" rel="noopener">完整操作說明：開啟、加點、備份與換電腦 ↗</a></p>`);
+});
 $('class-button').addEventListener('click', () => showModal('<div class="eyebrow">CHOOSE YOUR PATH</div><h2>下一段旅程，等待展開。</h2><div class="class-option active"><strong>Eng-TOEIC</strong><small>目前職業 · 聽力與閱讀 900+</small></div><div class="class-option"><strong>日語</strong><small>規劃中</small></div><div class="class-option"><strong>素描畫</strong><small>規劃中</small></div><p>初版提供 Eng-TOEIC。其他職業可沿用同一套技能與先備資料結構新增；英語交流會獨立成另一套 Eng- 職業。</p>'));
 window.addEventListener('storage', event => {
   if (!isProgressStorageEvent(event, window.localStorage, STORAGE_KEY)) return;
