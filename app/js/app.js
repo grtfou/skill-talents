@@ -2,6 +2,7 @@ import curriculum from '../data/curriculum.js?v=2026.10.1';
 import { createEngine } from './domain.js';
 import { createStorage, STORAGE_KEY } from './storage.js';
 import { saveProgress, isProgressStorageEvent } from './progress.js';
+import { createSkillPopover } from './skill-popover.js';
 
 const $ = id => document.getElementById(id);
 const desktopMode = window.location.protocol === 'skill-talents:';
@@ -37,6 +38,7 @@ function toast(message) {
 }
 
 function showModal(html) {
+  popover.hide();
   if ($('modal').open) $('modal').close();
   $('modal-content').innerHTML = html;
   $('modal').showModal();
@@ -126,7 +128,7 @@ function renderTree() {
   const branch = branchFor(branchId);
   const list = query ? curriculum.skills.filter(skill => `${skill.id} ${skill.title} ${skill.topic} ${skill.description} ${branchFor(skill.branch).name}`.toLocaleLowerCase().includes(query.toLocaleLowerCase())) : curriculum.skills.filter(skill => skill.branch === branchId);
   if (query || listView) {
-    $('tree-content').innerHTML = `<div class="skill-list">${query ? `<h3>找到 ${list.length} 項技能</h3>` : ''}${list.length ? list.map(skill => `<button class="list-item ${skill.id === selectedId ? 'selected' : ''}" data-select="${skill.id}"><img src="${skill.icon}" alt=""><span><strong>${skill.title}</strong><small>${skill.topic} · ${branchFor(skill.branch).name} · ${statusLabel(status(skill))}</small></span><b>${pointText(skill)}</b></button>`).join('') : '<div class="empty-state"><strong>尚未找到這道符文</strong>試試「字母」、「假設句」或「聽力」。</div>'}</div>`;
+    $('tree-content').innerHTML = `<div class="skill-list">${query ? `<h3>找到 ${list.length} 項技能</h3>` : ''}${list.length ? list.map(skill => `<button class="list-item ${skill.id === selectedId ? 'selected' : ''}" data-select="${skill.id}" data-preview="${skill.id}" aria-haspopup="dialog" aria-controls="skill-popover" aria-expanded="false"><img src="${skill.icon}" alt=""><span><strong>${skill.title}</strong><small>${skill.topic} · ${branchFor(skill.branch).name} · ${statusLabel(status(skill))}</small></span><b>${pointText(skill)}</b></button>`).join('') : '<div class="empty-state"><strong>尚未找到這道符文</strong>試試「字母」、「假設句」或「聽力」。</div>'}</div>`;
     return;
   }
   const width = 760, columnWidth = 190, rowHeight = 159, top = 65;
@@ -142,35 +144,36 @@ function renderTree() {
   })).join('');
   $('tree-content').innerHTML = `<div class="tree-canvas" style="width:${width}px;height:${height}px"><svg class="tree-lines" width="${width}" height="${height}" aria-hidden="true">${edges}</svg>${branch.lanes.map((lane, i) => `<div class="lane-title" style="left:${i * columnWidth + 8}px">${lane}</div>`).join('')}${list.map(skill => {
     const state = status(skill), amount = engine.value(points, skill.id);
-    return `<article class="skill-node ${state} ${skill.id === selectedId ? 'selected' : ''}" style="left:${skill.lane * columnWidth + 8}px;top:${top + skill.level * rowHeight}px" data-node="${skill.id}"><div class="node-icon-wrap"><button class="node-icon" data-add="${skill.id}" aria-label="${skill.title}，${pointText(skill)} 小時，${state === 'locked' ? '查看先備條件' : state === 'complete' ? '已滿點' : '投入一小時'}" aria-disabled="${state === 'locked' || state === 'complete'}"><img src="${skill.icon}" alt="">${state === 'locked' ? '<span class="node-status">⌑</span>' : state === 'complete' ? '<span class="node-status">✓</span>' : '<span class="node-add">+</span>'}</button></div><button class="node-title" data-select="${skill.id}">${skill.title}</button><div class="node-topic">${skill.topic}</div><div class="node-points"><button class="node-minus" data-subtract="${skill.id}" aria-label="收回${skill.title}一小時" ${amount === 0 ? 'disabled' : ''}>−</button><strong>${amount}</strong><span>/ ${skill.hours}</span></div></article>`;
+    return `<article class="skill-node ${state} ${skill.id === selectedId ? 'selected' : ''}" style="left:${skill.lane * columnWidth + 8}px;top:${top + skill.level * rowHeight}px" data-node="${skill.id}" data-preview="${skill.id}"><div class="node-icon-wrap"><button class="node-icon" data-add="${skill.id}" aria-label="${skill.title}，${pointText(skill)} 小時，${state === 'locked' ? '查看先備條件' : state === 'complete' ? '已滿點' : '投入一小時'}" aria-disabled="${state === 'locked' || state === 'complete'}"><img src="${skill.icon}" alt="">${state === 'locked' ? '<span class="node-status" aria-hidden="true"><svg viewBox="0 0 16 16"><rect x="4" y="7" width="8" height="6" rx="1"/><path d="M5 7V5a3 3 0 0 1 6 0v2"/></svg></span>' : state === 'complete' ? '<span class="node-status">✓</span>' : '<span class="node-add">+</span>'}</button></div><button class="node-title" data-select="${skill.id}" aria-haspopup="dialog" aria-controls="skill-popover" aria-expanded="false">${skill.title}</button><div class="node-points"><button class="node-minus" data-subtract="${skill.id}" aria-label="收回${skill.title}一小時" ${amount === 0 ? 'disabled' : ''}>−</button><strong>${amount}</strong><span>/ ${skill.hours}</span></div></article>`;
   }).join('')}</div>`;
 }
 
-function renderInspector() {
-  const skill = engine.skills.get(selectedId);
+function renderSkillDetails(id) {
+  const skill = engine.skills.get(id);
   const state = status(skill), amount = engine.value(points, skill.id);
   const branch = branchFor(skill.branch);
   const blockedBy = engine.blockers(points, skill.id);
-  $('inspector').innerHTML = `<div class="detail-kicker">${branch.name} ／ ${branch.lanes[skill.lane]}</div><div class="detail-hero"><img src="${skill.icon}" alt=""><div><h3>${skill.title}</h3><p>${skill.topic}</p></div></div><span class="status-badge ${state}">${statusLabel(state)}</span><div class="detail-points"><span>學習時數</span><strong>${amount} <small>/ ${skill.hours} 小時</small></strong></div><div class="detail-progress"><i style="width:${amount / skill.hours * 100}%"></i></div><div class="point-buttons"><button data-subtract="${skill.id}" ${amount === 0 || blockedBy.length || protectedSave ? 'disabled' : ''}>− 收回 1 小時</button><button data-add="${skill.id}" class="primary-button" ${state === 'locked' || state === 'complete' || protectedSave ? 'disabled' : ''}>＋ 投入 1 小時</button></div><p class="detail-note">${blockedBy.length ? '退點前，請先收回已投入的後續技能。' : '完成實際學習後，再為自己記上一點。'}</p><section class="detail-section"><h4>◇ 學習內容</h4><p>${skill.description}</p></section><section class="detail-section"><h4>◇ 自我檢核</h4><p class="checkpoint">${skill.checkpoint}</p></section><section class="detail-section"><h4>◇ 先備技能${skill.prerequisites.length > 1 ? '（全部完成）' : ''}</h4>${skill.prerequisites.length ? `<div class="prereq-list">${skill.prerequisites.map(id => { const parent = engine.skills.get(id); return `<button class="prereq-button" data-jump="${id}"><span>${engine.value(points, id) === parent.hours ? '✓' : '◇'} ${parent.title}</span><span>${pointText(parent)}</span></button>`; }).join('')}</div>` : '<p>無需先備技能，現在就能開始冒險。</p>'}</section><p class="detail-footnote">規劃時數包含練習與複習，採初學且學得較慢者的保守預算。時數不是能力認證，也不能換算為 TOEIC 分數。</p>`;
+  $('skill-popover').innerHTML = `<div class="popover-toolbar"><span class="popover-hint"></span><button data-close-popover aria-label="關閉技能詳情">×</button></div><div class="detail-kicker">${branch.name} ／ ${branch.lanes[skill.lane]}</div><div class="detail-hero"><img src="${skill.icon}" alt=""><div><h3 id="skill-popover-title">${skill.title}</h3><p>${skill.topic}</p></div></div><span class="status-badge ${state}">${statusLabel(state)}</span><div class="detail-points"><span>學習時數</span><strong>${amount} <small>/ ${skill.hours} 小時</small></strong></div><div class="detail-progress"><i style="width:${amount / skill.hours * 100}%"></i></div><div class="point-buttons"><button data-subtract="${skill.id}" ${amount === 0 || blockedBy.length || protectedSave ? 'disabled' : ''}>− 收回 1 小時</button><button data-add="${skill.id}" class="primary-button" ${state === 'locked' || state === 'complete' || protectedSave ? 'disabled' : ''}>＋ 投入 1 小時</button></div><p class="detail-note">${blockedBy.length ? '退點前，請先收回已投入的後續技能。' : '完成實際學習後，再為自己記上一點。'}</p><section class="detail-section"><h4>◇ 學習內容</h4><p>${skill.description}</p></section><section class="detail-section"><h4>◇ 自我檢核</h4><p class="checkpoint">${skill.checkpoint}</p></section><section class="detail-section"><h4>◇ 先備技能${skill.prerequisites.length > 1 ? '（全部完成）' : ''}</h4>${skill.prerequisites.length ? `<div class="prereq-list">${skill.prerequisites.map(id => { const parent = engine.skills.get(id); return `<button class="prereq-button" data-jump="${id}"><span>${engine.value(points, id) === parent.hours ? '✓' : '◇'} ${parent.title}</span><span>${pointText(parent)}</span></button>`; }).join('')}</div>` : '<p>無需先備技能，現在就能開始冒險。</p>'}</section><p class="detail-footnote">規劃時數包含練習與複習，採初學且學得較慢者的保守預算。時數不是能力認證，也不能換算為 TOEIC 分數。</p>`;
 }
 
 function render() {
   const active = document.activeElement;
   const focusAction = active?.dataset ? ['add', 'subtract', 'select', 'branch'].find(key => active.dataset[key]) : null;
   const focusId = focusAction ? active.dataset[focusAction] : null;
-  const inInspector = active && $('inspector').contains(active);
+  const inPopover = active && $('skill-popover').contains(active);
   renderNavigation();
   renderHeader();
   renderTree();
-  renderInspector();
+  popover.refresh();
   renderWarning();
   if (focusAction && focusId) {
-    const root = inInspector ? $('inspector') : document;
+    const root = inPopover ? $('skill-popover') : document;
     root.querySelector(`[data-${focusAction}="${focusId}"]:not(:disabled)`)?.focus({ preventScroll: true });
   }
 }
 
 function jump(id) {
+  popover.hide();
   const skill = engine.skills.get(id);
   selectedId = id;
   branchId = skill.branch;
@@ -181,6 +184,11 @@ function jump(id) {
     $('tree').scrollTop = Math.max(0, 65 + skill.level * 159 - 80);
     $('tree').scrollLeft = Math.max(0, skill.lane * 190 - $('tree').clientWidth / 2 + 95);
   }
+  // Wait for programmatic scrolling before anchoring the next detail card.
+  requestAnimationFrame(() => {
+    $('tree').querySelector(`[data-select="${id}"]`)?.focus({ preventScroll: true });
+    popover.show(id, true);
+  });
 }
 
 function exportProgress() {
@@ -188,10 +196,19 @@ function exportProgress() {
   toast('旅程備份已匯出，請保留下載的 JSON 檔案。');
 }
 
+function selectSkill(id) {
+  selectedId = id;
+  render();
+  popover.show(id, true);
+  // Move focus into the card for keyboard and touch users.
+  $('skill-popover').querySelector('[data-close-popover]').focus({ preventScroll: true });
+}
+
 document.addEventListener('click', event => {
   const target = event.target.closest('button');
   if (!target || target.disabled) return;
   if (target.dataset.branch) {
+    popover.hide();
     branchId = target.dataset.branch;
     query = '';
     $('search').value = '';
@@ -200,20 +217,23 @@ document.addEventListener('click', event => {
     $('tree').scrollLeft = 0;
     render();
   } else if (target.dataset.select) {
-    selectedId = target.dataset.select;
-    render();
-    if (window.innerWidth <= 900) $('inspector').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  } else if (target.dataset.add) allocate(target.dataset.add, 1);
+    selectSkill(target.dataset.select);
+  } else if (target.dataset.add) {
+    const skill = engine.skills.get(target.dataset.add);
+    if (target.classList.contains('node-icon') && status(skill) === 'locked') selectSkill(skill.id);
+    else allocate(skill.id, 1);
+  }
   else if (target.dataset.subtract) allocate(target.dataset.subtract, -1);
   else if (target.dataset.jump) jump(target.dataset.jump);
 });
 
 $('search').addEventListener('input', event => {
+  popover.hide();
   query = event.target.value.trim().slice(0, 100);
   $('tree').scrollTop = 0;
   render();
 });
-$('view-button').addEventListener('click', () => { listView = !listView; $('tree').scrollTop = 0; render(); });
+$('view-button').addEventListener('click', () => { popover.hide(); listView = !listView; $('tree').scrollTop = 0; render(); });
 $('export-button').addEventListener('click', exportProgress);
 $('import-button').addEventListener('click', () => $('import-file').click());
 $('import-file').addEventListener('change', async event => {
@@ -235,7 +255,7 @@ $('reset-button').addEventListener('click', () => {
   $('cancel-reset').addEventListener('click', () => $('modal').close());
   $('confirm-reset').addEventListener('click', () => { $('modal').close(); protectedSave = false; commit({}, '已重置，新的旅程從這裡開始。'); });
 });
-$('help-button').addEventListener('click', () => showModal(`<div class="eyebrow">YOUR FIRST ADVENTURE</div><h2>先學習，再幫自己加一點。</h2><ol><li><strong>先選技能。</strong>第一次學英文，可以從「符文基礎」的「初始字母之印」開始。</li><li><strong>點名字，看說明。</strong>「學習內容」會告訴你今天要學什麼。</li><li><strong>學滿一小時，加一點。</strong>點一次圖案，或按「＋ 投入 1 小時」。不用連續學一小時，可以分幾次累計。</li><li><strong>點錯不用怕。</strong>按「−」減一點。如果後面的技能已經加過點，要先把後面的點數退回來。</li><li><strong>灰色技能先等等。</strong>看看它的「先備技能」，把前面的時數記滿，就能往前走。</li></ol><p>${desktopMode ? '程式會記住這台電腦、這個使用者帳號的進度。' : '網頁會記住這個瀏覽器、這個網址的進度。'}每週按一次「匯出旅程」，把備份留好。換電腦時，就能帶著紀錄繼續學。</p><p>這是記錄學習的工具。課本、影片和題目要另外準備；點滿不等於已學會或考到 900 分。</p><p><a href="help.html" target="_blank" rel="noopener">完整操作說明：開啟、加點、備份與換電腦 ↗</a></p>`));
+$('help-button').addEventListener('click', () => showModal(`<div class="eyebrow">YOUR FIRST ADVENTURE</div><h2>先學習，再幫自己加一點。</h2><ol><li><strong>先選技能。</strong>第一次學英文，可以從「符文基礎」的「初始字母之印」開始。</li><li><strong>查看技能詳情。</strong>滑鼠移到技能上，或用 Tab 聚焦即可預覽；點名稱可固定浮窗，查看學習內容、自我檢核及先備技能，按 Esc 或 × 關閉。</li><li><strong>學滿一小時，加一點。</strong>點一次圖案，或按「＋ 投入 1 小時」。不用連續學一小時，可以分幾次累計。</li><li><strong>點錯不用怕。</strong>按「−」減一點。如果後面的技能已經加過點，要先把後面的點數退回來。</li><li><strong>未解鎖的技能先等等。</strong>看看它的「先備技能」，把前面的時數記滿，就能往前走。</li></ol><p>${desktopMode ? '程式會記住這台電腦、這個使用者帳號的進度。' : '網頁會記住這個瀏覽器、這個網址的進度。'}每週按一次「匯出旅程」，把備份留好。換電腦時，就能帶著紀錄繼續學。</p><p>這是記錄學習的工具。課本、影片和題目要另外準備；點滿不等於已學會或考到 900 分。</p><p><a href="help.html" target="_blank" rel="noopener">完整操作說明：開啟、加點、備份與換電腦 ↗</a></p>`));
 $('class-button').addEventListener('click', () => showModal('<div class="eyebrow">CHOOSE YOUR PATH</div><h2>下一段旅程，等待展開。</h2><div class="class-option active"><strong>Eng-TOEIC</strong><small>目前職業 · 聽力與閱讀 900+</small></div><div class="class-option"><strong>日語</strong><small>規劃中</small></div><div class="class-option"><strong>素描畫</strong><small>規劃中</small></div><p>初版提供 Eng-TOEIC。其他職業可沿用同一套技能與先備資料結構新增；英語交流會獨立成另一套 Eng- 職業。</p>'));
 window.addEventListener('storage', event => {
   if (!isProgressStorageEvent(event, window.localStorage, STORAGE_KEY)) return;
@@ -254,4 +274,5 @@ window.addEventListener('storage', event => {
     render();
   }
 });
+const popover = createSkillPopover({ tree: $('tree'), panel: $('skill-popover'), renderDetails: renderSkillDetails });
 render();

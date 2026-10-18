@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><title>聆聽總試煉：完整聽力限時診斷</title><defs><radialGradient id="bg"><stop stop-color="#b29bc7" stop-opacity=".26"/><stop offset="1" stop-color="#131917"/></radialGradient></defs><path d="M17 3h30l14 14v30L47 61H17L3 47V17z" fill="url(#bg)" stroke="#b29bc7" stroke-width="1.4"/><path d="M19 7h26l12 12v26L45 57H19L7 45V19z" fill="none" stroke="#b29bc7" opacity=".22"/><g fill="none" stroke="#b29bc7" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity=".35"><path d="M25 44c0-7-8-8-8-17a15 15 0 0 1 30 0c0 9-8 11-8 18 0 12-14 13-14 3M26 29a6 6 0 0 1 12 0c0 6-6 5-6 11M9 23l-3 8m49-8 3 8"/></g><path d="M12 26h40v16H12z" fill="#161e17" opacity=".9"/><text x="32" y="37.5" fill="#b29bc7" font-size="12" font-family="Georgia,serif" text-anchor="middle">45′</text><g fill="none" stroke="#b29bc7" stroke-width="1.2"><path d="M10 59v-2"/><path d="M16 59v-2"/><path d="M22 59v-5"/><path d="M28 59v-5"/><path d="M34 59v-5"/><path d="M40 59v-2"/><path d="M46 59v-2"/><path d="M52 59v-2"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="crown" data-palette="violet">
+<title>聆聽總試煉：完整聽力限時診斷</title>
+<defs><radialGradient id="bg"><stop stop-color="#593a8d"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#f0dfff"/><stop offset=".45" stop-color="#bca0f7"/><stop offset="1" stop-color="#593a8d"/></linearGradient></defs>
+<g fill="url(#bg)" stroke="#bca0f7" stroke-width="1.2"><rect x="4" y="4" width="56" height="56" rx="15"/></g>
+<circle cx="32" cy="32" r="24" fill="none" stroke="#bca0f7" opacity=".15"/>
+<path d="m9 9 3 3m40 40 3 3M9 55l3-3M52 12l3-3" stroke="#f0dfff" opacity=".65"/>
+<style>.shine{fill:none;stroke:#f0dfff;stroke-width:1.5}</style>
+<g fill="url(#art)" stroke="#bca0f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m10 21 12 8 10-16 10 16 12-8-6 28H16Z"/><path class="shine" d="M17 42h30m-15-8 3 4-3 4-3-4Z"/><circle cx="10" cy="19" r="3"/><circle cx="32" cy="11" r="3"/><circle cx="54" cy="19" r="3"/></g>
+</svg>
