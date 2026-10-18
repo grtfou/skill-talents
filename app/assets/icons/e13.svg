@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><title>雙域合擊：完整模擬與耐力一</title><defs><radialGradient id="bg"><stop stop-color="#cfb268" stop-opacity=".26"/><stop offset="1" stop-color="#131917"/></radialGradient></defs><path d="M17 3h30l14 14v30L47 61H17L3 47V17z" fill="url(#bg)" stroke="#cfb268" stroke-width="1.4"/><path d="M19 7h26l12 12v26L45 57H19L7 45V19z" fill="none" stroke="#cfb268" opacity=".22"/><g fill="none" stroke="#cfb268" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity=".35"><path d="M14 23l9 7 9-17 9 17 9-7-5 25H19zM20 42h24M25 51h14M32 28l4 7-4 5-4-5z"/></g><path d="M12 26h40v16H12z" fill="#161e17" opacity=".9"/><text x="32" y="37.5" fill="#cfb268" font-size="12" font-family="Georgia,serif" text-anchor="middle">I</text><g fill="none" stroke="#cfb268" stroke-width="1.2"><path d="M10 59v-5"/><path d="M16 59v-2"/><path d="M22 59v-5"/><path d="M28 59v-5"/><path d="M34 59v-2"/><path d="M40 59v-2"/><path d="M46 59v-2"/><path d="M52 59v-2"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="swords" data-palette="rose">
+<title>雙域合擊：完整模擬與耐力一</title>
+<defs><radialGradient id="bg"><stop stop-color="#843a63"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#ffe2ef"/><stop offset=".45" stop-color="#ed98bd"/><stop offset="1" stop-color="#843a63"/></linearGradient></defs>
+<g fill="url(#bg)" stroke="#ed98bd" stroke-width="1.2"><rect x="4" y="4" width="56" height="56" rx="15"/></g>
+<circle cx="32" cy="32" r="24" fill="none" stroke="#ed98bd" opacity=".15"/>
+<path d="m9 9 3 3m40 40 3 3M9 55l3-3M52 12l3-3" stroke="#ffe2ef" opacity=".65"/>
+<style>.shine{fill:none;stroke:#ffe2ef;stroke-width:1.5}</style>
+<g fill="url(#art)" stroke="#ed98bd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m13 11 10 2 24 31-7 6-26-29Zm38 0-10 2L17 44l7 6 26-29Z"/><path class="shine" d="m12 40 15 12m10 0 15-12M18 47l-6 7m34-7 6 7"/></g>
+</svg>

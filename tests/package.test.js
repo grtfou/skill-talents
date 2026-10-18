@@ -32,3 +32,11 @@ test('若說明被打包設定排除，建置驗證會直接失敗', async t => 
   await createPackage(source, archive);
   await assert.rejects(verifyDesktopPackage(archive), /缺少必要檔案：app\/help.html/);
 });
+
+test('若技能浮窗模組缺少，建置驗證會拒絕無法啟動的套件', async t => {
+  const { folder, source } = await fixture(t);
+  await rm(path.join(source, 'app/js/skill-popover.js'));
+  const archive = path.join(folder, 'missing-popover.asar');
+  await createPackage(source, archive);
+  await assert.rejects(verifyDesktopPackage(archive), /缺少必要檔案：app\/js\/skill-popover.js/);
+});

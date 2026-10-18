@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><title>迷音破除：Part 2 干擾選項</title><defs><radialGradient id="bg"><stop stop-color="#b29bc7" stop-opacity=".26"/><stop offset="1" stop-color="#131917"/></radialGradient></defs><path d="M17 3h30l14 14v30L47 61H17L3 47V17z" fill="url(#bg)" stroke="#b29bc7" stroke-width="1.4"/><path d="M19 7h26l12 12v26L45 57H19L7 45V19z" fill="none" stroke="#b29bc7" opacity=".22"/><g fill="none" stroke="#b29bc7" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity=".35"><path d="M25 44c0-7-8-8-8-17a15 15 0 0 1 30 0c0 9-8 11-8 18 0 12-14 13-14 3M26 29a6 6 0 0 1 12 0c0 6-6 5-6 11M9 23l-3 8m49-8 3 8"/></g><path d="M12 26h40v16H12z" fill="#161e17" opacity=".9"/><text x="32" y="37.5" fill="#b29bc7" font-size="12" font-family="Georgia,serif" text-anchor="middle">≠</text><g fill="none" stroke="#b29bc7" stroke-width="1.2"><path d="M10 59v-5"/><path d="M16 59v-2"/><path d="M22 59v-5"/><path d="M28 59v-5"/><path d="M34 59v-2"/><path d="M40 59v-2"/><path d="M46 59v-2"/><path d="M52 59v-2"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="wand" data-palette="ice">
+<title>迷音破除：Part 2 干擾選項</title>
+<defs><radialGradient id="bg"><stop stop-color="#315794"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#e0fcff"/><stop offset=".45" stop-color="#72d9ed"/><stop offset="1" stop-color="#315794"/></linearGradient></defs>
+<g fill="url(#bg)" stroke="#72d9ed" stroke-width="1.2"><rect x="4" y="4" width="56" height="56" rx="15"/></g>
+<circle cx="32" cy="32" r="24" fill="none" stroke="#72d9ed" opacity=".15"/>
+<path d="m9 9 3 3m40 40 3 3M9 55l3-3M52 12l3-3" stroke="#e0fcff" opacity=".65"/>
+<style>.shine{fill:none;stroke:#e0fcff;stroke-width:1.5}</style>
+<g fill="url(#art)" stroke="#72d9ed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m17 51 24-26 5 5-24 26Z"/><path class="shine" d="m40 10 2 8 9 2-9 3-2 8-3-8-8-3 8-2Zm-21 4 1 5 5 1-5 1-1 5-1-5-5-1 5-1Z"/></g>
+</svg>

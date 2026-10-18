@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><title>流動時輪：現在進行式</title><defs><radialGradient id="bg"><stop stop-color="#8aafbd" stop-opacity=".26"/><stop offset="1" stop-color="#131917"/></radialGradient></defs><path d="M17 3h30l14 14v30L47 61H17L3 47V17z" fill="url(#bg)" stroke="#8aafbd" stroke-width="1.4"/><path d="M19 7h26l12 12v26L45 57H19L7 45V19z" fill="none" stroke="#8aafbd" opacity=".22"/><g fill="none" stroke="#8aafbd" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity=".35"><path d="M21 20h8l3 5 3-5h8l-4 10 7 19H18l7-19z"/><path d="M24 39h16M28 20v-7m8 7v-7M19 52h26"/></g><path d="M12 26h40v16H12z" fill="#161e17" opacity=".9"/><text x="32" y="37.5" fill="#8aafbd" font-size="12" font-family="Georgia,serif" text-anchor="middle">-ing</text><g fill="none" stroke="#8aafbd" stroke-width="1.2"><path d="M10 59v-2"/><path d="M16 59v-2"/><path d="M22 59v-5"/><path d="M28 59v-5"/><path d="M34 59v-2"/><path d="M40 59v-2"/><path d="M46 59v-2"/><path d="M52 59v-2"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="wheel" data-palette="ice">
+<title>流動時輪：現在進行式</title>
+<defs><radialGradient id="bg"><stop stop-color="#315794"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#e0fcff"/><stop offset=".45" stop-color="#72d9ed"/><stop offset="1" stop-color="#315794"/></linearGradient></defs>
+<g fill="url(#bg)" stroke="#72d9ed" stroke-width="1.2"><path d="M19 3h26l16 16v26L45 61H19L3 45V19Z"/></g>
+<circle cx="32" cy="32" r="24" fill="none" stroke="#72d9ed" opacity=".15"/>
+<path d="m9 9 3 3m40 40 3 3M9 55l3-3M52 12l3-3" stroke="#e0fcff" opacity=".65"/>
+<style>.shine{fill:none;stroke:#e0fcff;stroke-width:1.5}</style>
+<g fill="url(#art)" stroke="#72d9ed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="21"/><circle class="shine" cx="32" cy="32" r="6"/><path class="shine" d="M32 11v15m0 12v15M11 32h15m12 0h15M17 17l11 11m10 10 9 9m0-30L36 28m-8 10-11 9"/></g>
+</svg>

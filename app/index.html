@@ -7,8 +7,8 @@
   <meta name="description" content="把每一小時，化為你的天賦。本機單人學習技能樹，從英文字母啟程，邁向 TOEIC 900+。">
   <title>符文之路｜學習天賦樹</title>
   <link rel="icon" href="assets/icons/e16.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=0.2.0">
-  <script src="js/app.js?v=0.2.0" type="module"></script>
+  <link rel="stylesheet" href="styles.css?v=0.2.2">
+  <script src="js/app.js?v=0.2.1" type="module"></script>
 </head>
 <body>
   <a class="skip-link" href="#tree">跳至技能樹</a>
@@ -46,13 +46,14 @@
       <section class="tree-section" aria-label="天賦技能樹">
         <div class="tree-heading"><div><span class="section-number" id="branch-number">I</span><div><div class="eyebrow" id="branch-english">FOUNDATIONS</div><h2 id="branch-title">符文基礎</h2></div></div><div class="tree-controls"><label class="search-box"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜尋全部技能…" aria-label="搜尋全部技能"></label><button id="view-button" class="icon-button" aria-label="切換清單檢視" title="切換清單檢視">☷</button></div></div>
         <div class="tree-subheading"><p id="branch-description">從第一個字母，喚醒你的語言天賦。</p><span id="branch-stats"></span></div>
-        <div class="legend"><span><i class="legend-available"></i>可學習</span><span><i class="legend-progress"></i>學習中</span><span><i class="legend-complete"></i>已完成</span><span><i class="legend-locked"></i>未解鎖</span><small>點圖示 ＋1 小時・點名稱查看內容</small></div>
-        <div class="learning-layout"><div id="tree" class="tree-viewport" tabindex="0" aria-label="技能樹，可捲動瀏覽"><div id="tree-content"></div></div><aside id="inspector" class="inspector" aria-label="技能詳情"></aside></div>
+        <div class="legend"><span><i class="legend-available"></i>可學習</span><span><i class="legend-progress"></i>學習中</span><span><i class="legend-complete"></i>已完成</span><span><i class="legend-locked"></i>未解鎖</span><small>點圖示 ＋1 小時・懸停預覽・點名稱固定詳情</small></div>
+        <div class="learning-layout"><div id="tree" class="tree-viewport" tabindex="0" aria-label="技能樹，可捲動瀏覽"><div id="tree-content"></div></div></div>
         <div class="tree-footer"><span>✧ 1 點天賦 ＝ 1 小時學習</span><span>滿點記錄投入時數；能力請搭配自我檢核。</span></div>
       </section>
       <footer class="page-footer"><span>不必一次抵達。每一點，都是前進。</span><span>離線可用 · 無帳號 · 無雲端傳輸</span></footer>
     </main>
   </div>
+  <aside id="skill-popover" class="skill-popover" role="dialog" aria-modal="false" aria-labelledby="skill-popover-title" hidden></aside>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <dialog id="modal"><form method="dialog"><button class="dialog-close" aria-label="關閉視窗">×</button></form><div id="modal-content"></div></dialog>
   <noscript>請啟用 JavaScript，才能使用天賦樹與儲存進度。</noscript>

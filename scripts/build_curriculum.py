@@ -1,7 +1,7 @@
 """產生課程資料、原創 SVG 徽章及技能目錄。修改課程後重新執行即可。"""
 from pathlib import Path
 import json
-from html import escape
+from skill_icons import render_icon
 
 ROOT = Path(__file__).resolve().parents[1]
 # 每列：奇幻名稱｜實際學習主題｜規劃時數｜練習內容｜自我檢核。
@@ -236,25 +236,6 @@ TRACKS = [
     ]),
 ]
 
-MOTIFS = {
-    "foundation": '<path d="M26 29L32 18l6 11 12 3-9 9 1 13-10-6-10 6 1-13-9-9z"/><path d="M32 29v13M26 36h12"/>',
-    "grammar": '<path d="M21 20h8l3 5 3-5h8l-4 10 7 19H18l7-19z"/><path d="M24 39h16M28 20v-7m8 7v-7M19 52h26"/>',
-    "vocabulary": '<path d="M32 23c-8-6-16-4-20-2v29c7-4 14-3 20 1 6-4 13-5 20-1V21c-5-2-12-4-20 2zM32 23v28M17 28l9 1m-9 6 9 1m12-7 9-1m-9 8 9-1"/>',
-    "listening": '<path d="M25 44c0-7-8-8-8-17a15 15 0 0 1 30 0c0 9-8 11-8 18 0 12-14 13-14 3M26 29a6 6 0 0 1 12 0c0 6-6 5-6 11M9 23l-3 8m49-8 3 8"/>',
-    "reading": '<path d="M18 50V24l14-12 14 12v26M23 22h18M18 31h28M18 39h28M14 51h36M29 50V41h6v9M30 26h4M30 34h4"/>',
-    "expedition": '<path d="M14 23l9 7 9-17 9 17 9-7-5 25H19zM20 42h24M25 51h14M32 28l4 7-4 5-4-5z"/>',
-}
-
-GLYPHS = {
-    "foundation": ["A–Z", "a–z", "cat", "a_e", "sh", "syll", "KK", "/æ/", "/aɪ/", "/θ/", "-ed", "ˈ", "noun", "123", "12:00", "N E", "go", "food", "S+V", "be", "I/my", "why", "do?", "hello"],
-    "grammar": ["N V", "N", "the", "they", "-ly", "-er", "at", "in", "SVO", "S=V", "now", "-ing", "-ed", "was", "will", "have", "had", "been", "can", "p.p.", "and", "when", "why", "if", "would", "had", "wish", "who", "where", "that", "to V", "make", "-ing", "V-ing", "said", "only", "both", "of", "S…V", "✓"],
-    "vocabulary": ["BUS", "AIR", "KEY", "MENU", "HOME", "CARE", "SHOW", "ECO", "JOB", "TEAM", "MEET", "MAIL", "GROW", "LAW", "HELP", "PLAN", "$", "BUY", "SHIP", "SALE", "MAKE", "TECH", "%", "BUILD", "ROOT", "re-", "-tion", "≈", "≠", "+", "1·3·7", "✓"],
-    "listening": ["/i/", "link", "ˈ", "EN", "123", "echo", "note", "P1", "P1", "WH?", "YES?", "…", "≠", "1+2", "P3", "read", "find", "3", "why", "chart", "P3✓", "P4", "call", "talk", "news", "chart", "P4✓", "45′"],
-    "reading": ["P5", "V", "and", "word", "P6", "insert", "5+6", "MAIL", "NOTE", "AD", "FORM", "NEWS", "CHAT", "P7✓", "skim", "scan", "≈", "it", "why", "+", "NOT", "2", "3", "then", "A+B", "fast", "P7", "75′"],
-    "expedition": ["MAP", "FIX", "LOOP", "CAMP", "EAR", "EN", "FAST", "L✓", "V", "A+B", "75′", "R✓", "I", "II", "READY", "900+"],
-}
-
-
 def main():
     branches, skills = [], []
     for key, label, english, prefix, color, description, lanes in TRACKS:
@@ -274,10 +255,7 @@ def main():
                                    prerequisites=prerequisites,
                                    icon=f"assets/icons/{identifier}.svg"))
                 previous = identifier
-                # 每個徽章有主題圖樣、六角寶石及依技能序號生成的獨立銘文。
-                marks = ''.join(f'<path d="M{10+i*6} 59v{-2-((number >> i)&1)*3}"/>' for i in range(8))
-                glyph = escape(GLYPHS[key][number - 1])
-                svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><title>{escape(title)}：{escape(topic)}</title><defs><radialGradient id="bg"><stop stop-color="{color}" stop-opacity=".26"/><stop offset="1" stop-color="#131917"/></radialGradient></defs><path d="M17 3h30l14 14v30L47 61H17L3 47V17z" fill="url(#bg)" stroke="{color}" stroke-width="1.4"/><path d="M19 7h26l12 12v26L45 57H19L7 45V19z" fill="none" stroke="{color}" opacity=".22"/><g fill="none" stroke="{color}" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity=".35">{MOTIFS[key]}</g><path d="M12 26h40v16H12z" fill="#161e17" opacity=".9"/><text x="32" y="37.5" fill="{color}" font-size="12" font-family="Georgia,serif" text-anchor="middle">{glyph}</text><g fill="none" stroke="{color}" stroke-width="1.2">{marks}</g></svg>'''
+                svg = render_icon(identifier, title, topic)
                 (ROOT / "app" / "assets" / "icons" / f"{identifier}.svg").write_text(svg, encoding="utf-8")
     # 不以分類順序冒充先備能力：不同生活／職場主題、單篇文類可平行學習。
     overrides = {
