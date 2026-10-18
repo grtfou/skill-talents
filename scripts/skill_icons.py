@@ -126,10 +126,11 @@ ART = {f"{prefix}{index:02d}": tuple(spec.split(":"))
        for index, spec in enumerate(specs.split(), 1)}
 
 
-def render_icon(identifier, title, topic):
-    motif, palette = ART[identifier]
+def render_icon(identifier, title, topic, art=None):
+    # 既有圖樣以固定 ID 對應；新增技能可直接使用預設，或在課程來源指定 art。
+    motif, palette = ART.get(identifier, ("seal", "amber")) if art is None else (art["motif"], art["palette"])
     color, light, shade = PALETTES[palette]
-    frame = int(identifier[1:]) % 3
+    frame = (int(identifier[1:]) if identifier[1:].isdigit() else sum(identifier.encode("utf-8"))) % 3
     frames = [
         '<path d="M19 3h26l16 16v26L45 61H19L3 45V19Z"/>',
         '<rect x="4" y="4" width="56" height="56" rx="15"/>',

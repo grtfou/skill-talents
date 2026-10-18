@@ -14,8 +14,8 @@ const persistence = createStorage(engine, curriculum, {
 });
 const initial = persistence.read();
 let points = initial.points;
-let branchId = 'foundation';
-let selectedId = 'f01';
+let branchId = curriculum.branches[0].id;
+let selectedId = curriculum.skills.find(skill => skill.branch === branchId)?.id ?? null;
 let query = '';
 let listView = false;
 let protectedSave = !!initial.raw && !!initial.error;
@@ -97,7 +97,7 @@ function renderNavigation() {
   $('branch-nav').innerHTML = curriculum.branches.map(branch => {
     const first = curriculum.skills.find(skill => skill.branch === branch.id);
     const summary = engine.summary(points, branch.id);
-    return `<button class="branch-button ${branch.id === branchId && !query ? 'active' : ''}" data-branch="${branch.id}" ${branch.id === branchId && !query ? 'aria-current="page"' : ''}><img src="${first.icon}" alt=""><span>${branch.name}</span><span class="branch-count">${summary.completed}/${summary.count}</span></button>`;
+    return `<button class="branch-button ${branch.id === branchId && !query ? 'active' : ''}" data-branch="${branch.id}" ${branch.id === branchId && !query ? 'aria-current="page"' : ''}>${first ? `<img src="${first.icon}" alt="">` : ''}<span>${branch.name}</span><span class="branch-count">${summary.completed}/${summary.count}</span></button>`;
   }).join('');
 }
 
@@ -108,7 +108,7 @@ function renderHeader() {
   $('available-skills').innerHTML = `${summary.available} <em>項技能</em>`;
   $('sidebar-completed').textContent = summary.completed;
   $('sidebar-count').textContent = `/ ${summary.count} 技能`;
-  $('sidebar-progress').style.width = `${summary.hours / summary.total * 100}%`;
+  $('sidebar-progress').style.width = `${summary.total ? summary.hours / summary.total * 100 : 0}%`;
   $('save-status').textContent = storageError ? '進度尚未儲存' : '進度自動儲存';
   $('save-detail').textContent = storageError ? '請匯出備份保留進度' : lastSaved ? `上次儲存 ${lastSaved}` : desktopMode ? '儲存在這台電腦' : '儲存於這個瀏覽器';
   const branch = branchFor(branchId);
@@ -129,6 +129,10 @@ function renderTree() {
   const list = query ? curriculum.skills.filter(skill => `${skill.id} ${skill.title} ${skill.topic} ${skill.description} ${branchFor(skill.branch).name}`.toLocaleLowerCase().includes(query.toLocaleLowerCase())) : curriculum.skills.filter(skill => skill.branch === branchId);
   if (query || listView) {
     $('tree-content').innerHTML = `<div class="skill-list">${query ? `<h3>找到 ${list.length} 項技能</h3>` : ''}${list.length ? list.map(skill => `<button class="list-item ${skill.id === selectedId ? 'selected' : ''}" data-select="${skill.id}" data-preview="${skill.id}" aria-haspopup="dialog" aria-controls="skill-popover" aria-expanded="false"><img src="${skill.icon}" alt=""><span><strong>${skill.title}</strong><small>${skill.topic} · ${branchFor(skill.branch).name} · ${statusLabel(status(skill))}</small></span><b>${pointText(skill)}</b></button>`).join('') : '<div class="empty-state"><strong>尚未找到這道符文</strong>試試「字母」、「假設句」或「聽力」。</div>'}</div>`;
+    return;
+  }
+  if (!list.length) {
+    $('tree-content').innerHTML = '<div class="empty-state"><strong>這條路線尚無技能</strong></div>';
     return;
   }
   const width = 760, columnWidth = 190, rowHeight = 159, top = 65;
@@ -212,7 +216,7 @@ document.addEventListener('click', event => {
     branchId = target.dataset.branch;
     query = '';
     $('search').value = '';
-    if (engine.skills.get(selectedId).branch !== branchId) selectedId = curriculum.skills.find(skill => skill.branch === branchId).id;
+    if (engine.skills.get(selectedId)?.branch !== branchId) selectedId = curriculum.skills.find(skill => skill.branch === branchId)?.id ?? null;
     $('tree').scrollTop = 0;
     $('tree').scrollLeft = 0;
     render();
