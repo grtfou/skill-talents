@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="clock" data-palette="blue">
-<title>先後時序：過去完成式</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="rewind" data-palette="blue">
+<title>先後時序：過去完成式的閱讀與敘事</title>
 <defs><radialGradient id="bg"><stop stop-color="#354b95"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#e1edff"/><stop offset=".45" stop-color="#83b5fc"/><stop offset="1" stop-color="#354b95"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#83b5fc" stroke-width="1.2"><path d="m32 2 26 15v30L32 62 6 47V17Z"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#83b5fc" opacity=".15"/>
 <path d="m9 9 3 3m40 40 3 3M9 55l3-3M52 12l3-3" stroke="#e1edff" opacity=".65"/>
 <style>.shine{fill:none;stroke:#e1edff;stroke-width:1.5}</style>
-<g fill="url(#art)" stroke="#83b5fc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="20"/><path class="shine" d="M32 17v16l10 6M32 12v4m20 16h-4M32 52v-4M12 32h4"/></g>
+<g fill="url(#art)" stroke="#83b5fc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 24a20 20 0 1 1 1 23l7-5a12 12 0 1 0 0-18l7 6H10V10Z"/><path class="shine" d="M33 23v11l7 5"/></g>
 </svg>

@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="scroll" data-palette="ice">
-<title>雙卷盟約：雙篇交叉資訊</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="files" data-palette="ice">
+<title>雙篇資訊整合：郵件與表單交叉核對</title>
 <defs><radialGradient id="bg"><stop stop-color="#315794"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#e0fcff"/><stop offset=".45" stop-color="#72d9ed"/><stop offset="1" stop-color="#315794"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#72d9ed" stroke-width="1.2"><rect x="4" y="4" width="56" height="56" rx="15"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#72d9ed" opacity=".15"/>
 <path d="m9 9 3 3m40 40 3 3M9 55l3-3M52 12l3-3" stroke="#e0fcff" opacity=".65"/>
 <style>.shine{fill:none;stroke:#e0fcff;stroke-width:1.5}</style>
-<g fill="url(#art)" stroke="#72d9ed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 14h31v7h-5v25c0 9-28 9-28 0V21h-5v-4c0-6 7-7 7-3Z"/><path class="shine" d="M18 14v27h20v5c0 7 6 7 6 0M24 23h14m-14 7h10"/></g>
+<g fill="url(#art)" stroke="#72d9ed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 10h25l7 8v29H19Z"/><path d="M12 18h25l7 8v28H12Z"/><path class="shine" d="M37 18v9h7M19 34h18m-18 7h18m-18 7h12"/></g>
 </svg>

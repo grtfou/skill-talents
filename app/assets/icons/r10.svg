@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="window" data-palette="rose">
-<title>廣告櫥窗：Part 7 廣告與徵才</title>
+<title>廣告與徵才：條件、對象與詢問</title>
 <defs><radialGradient id="bg"><stop stop-color="#843a63"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#ffe2ef"/><stop offset=".45" stop-color="#ed98bd"/><stop offset="1" stop-color="#843a63"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#ed98bd" stroke-width="1.2"><rect x="4" y="4" width="56" height="56" rx="15"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#ed98bd" opacity=".15"/>

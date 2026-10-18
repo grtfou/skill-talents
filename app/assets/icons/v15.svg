@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="contract" data-palette="rose">
-<title>服務誓言：客服與抱怨處理詞彙</title>
+<title>客服與問題處理：抱怨、釐清與解決</title>
 <defs><radialGradient id="bg"><stop stop-color="#843a63"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#ffe2ef"/><stop offset=".45" stop-color="#ed98bd"/><stop offset="1" stop-color="#843a63"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#ed98bd" stroke-width="1.2"><path d="M19 3h26l16 16v26L45 61H19L3 45V19Z"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#ed98bd" opacity=".15"/>

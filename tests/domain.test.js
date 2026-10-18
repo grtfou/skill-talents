@@ -31,7 +31,7 @@ test('課程有六分支、168 項技能，每項不超過 20 小時且圖示存
     assert.match(readFileSync(path, 'utf8'), /<svg/);
   }
 });
-test('字母與 KK 可各自開始，未解鎖的技能無法投入', () => {
+test('字母與聽音查音可各自開始，未解鎖的技能無法投入', () => {
   assert.equal(engine.unlocked({}, 'f01'), true);
   assert.equal(engine.unlocked({}, 'f07'), true);
   assert.equal(engine.change({}, 'f02', 1).ok, false);
@@ -139,6 +139,17 @@ test('JSON 匯出匯入保留所有資料並驗證版本', () => {
   assert.throws(() => persistence.parse(JSON.stringify({ ...data, schemaVersion: 2 })), /不相容/);
   assert.throws(() => persistence.parse(JSON.stringify({ ...data, classId: 'Eng-Other' })), /不相容/);
   assert.throws(() => persistence.parse(JSON.stringify({ ...data, curriculumVersion: 'future' })), /課程版本不相容/);
+});
+test('新版不把舊課程時數直接認作新技能，讀取失敗保留原始資料', () => {
+  assert.equal(curriculum.curriculumVersion, '2026.10.2');
+  const store = memory(), persistence = createStorage(engine, curriculum, store);
+  const raw = JSON.stringify({ ...persistence.envelope(seed), curriculumVersion: '2026.10.1' });
+  store.setItem(STORAGE_KEY, raw);
+  const loaded = persistence.read();
+  assert.match(loaded.error, /課程版本不相容/);
+  assert.deepEqual(loaded.points, {});
+  assert.equal(loaded.raw, raw);
+  assert.equal(store.getItem(STORAGE_KEY), raw);
 });
 test('拒絕未知技能、小數、負數、超過上限及違反先備的匯入', () => {
   const persistence = createStorage(engine, curriculum, memory());

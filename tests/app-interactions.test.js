@@ -62,7 +62,7 @@ test('點未解鎖圖示會固定先備詳情，不投入或儲存點數', () =>
   app.click({ add: 'f02' }, { icon: true });
   assert.deepEqual(app.previews, [{ id: 'f02', pinned: true }]);
   assert.equal(app.focused, 'skill-popover');
-  assert.match(app.element('skill-popover').innerHTML, /雙生字母契約/);
+  assert.match(app.element('skill-popover').innerHTML, /小寫字母配對/);
   assert.match(app.element('skill-popover').innerHTML, /先備技能/);
   assert.match(app.element('skill-popover').innerHTML, /data-jump="f01"/);
   assert.equal(app.storage.has(STORAGE_KEY), false);
@@ -86,8 +86,8 @@ test('刪除原始首節點後，初始選取來自剩餘資料', () => {
   const app = loadApp(data);
   assert.match(app.element('tree-content').innerHTML, /skill-node available selected[^>]+data-node="f02"/);
   app.element('help-button').listeners.get('click')();
-  assert.match(app.element('modal-content').innerHTML, /可以從「符文基礎」的「雙生字母契約」開始/);
-  assert.doesNotMatch(app.element('modal-content').innerHTML, /初始字母之印/);
+  assert.match(app.element('modal-content').innerHTML, /可以從「符文基礎」的「小寫字母配對」開始/);
+  assert.doesNotMatch(app.element('modal-content').innerHTML, /大寫字母辨識/);
   app.click({ add: 'f02' }, { icon: true });
   assert.deepEqual(JSON.parse(app.storage.get(STORAGE_KEY)).points, { f02: 1 });
 });
@@ -115,7 +115,7 @@ test('教學推薦無需先備的起點，安全顯示名稱，空課程則不�
   const app = loadApp(data);
   app.element('help-button').listeners.get('click')();
   assert.match(app.element('modal-content').innerHTML, /&lt;新起點 &amp; &quot;技能&quot;&gt;/);
-  assert.doesNotMatch(app.element('modal-content').innerHTML, /雙生字母契約/);
+  assert.doesNotMatch(app.element('modal-content').innerHTML, /小寫字母配對/);
   data.skills = [];
   const empty = loadApp(data);
   empty.element('help-button').listeners.get('click')();

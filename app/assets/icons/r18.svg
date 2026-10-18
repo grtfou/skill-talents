@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="lantern" data-palette="amber">
-<title>指涉追光：代名詞與脈絡詞義</title>
+<title>指涉與脈絡：代名詞、指示詞與上下文詞義</title>
 <defs><radialGradient id="bg"><stop stop-color="#75461e"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#fff0b5"/><stop offset=".45" stop-color="#e5b45f"/><stop offset="1" stop-color="#75461e"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#e5b45f" stroke-width="1.2"><path d="M19 3h26l16 16v26L45 61H19L3 45V19Z"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#e5b45f" opacity=".15"/>

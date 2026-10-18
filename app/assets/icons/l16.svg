@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="orb" data-palette="violet">
-<title>線索先知：Part 3 預讀題目</title>
+<title>題目預讀：Part 3 關鍵資訊與注意分配</title>
 <defs><radialGradient id="bg"><stop stop-color="#593a8d"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#f0dfff"/><stop offset=".45" stop-color="#bca0f7"/><stop offset="1" stop-color="#593a8d"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#bca0f7" stroke-width="1.2"><rect x="4" y="4" width="56" height="56" rx="15"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#bca0f7" opacity=".15"/>

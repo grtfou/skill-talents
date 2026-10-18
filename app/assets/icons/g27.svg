@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="orb" data-palette="rose">
-<title>交界預言：混合假設與 wish</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="quill" data-palette="rose">
+<title>意見段落：主題句、理由與具體例子</title>
 <defs><radialGradient id="bg"><stop stop-color="#843a63"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#ffe2ef"/><stop offset=".45" stop-color="#ed98bd"/><stop offset="1" stop-color="#843a63"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#ed98bd" stroke-width="1.2"><path d="M19 3h26l16 16v26L45 61H19L3 45V19Z"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#ed98bd" opacity=".15"/>
 <path d="m9 9 3 3m40 40 3 3M9 55l3-3M52 12l3-3" stroke="#ffe2ef" opacity=".65"/>
 <style>.shine{fill:none;stroke:#ffe2ef;stroke-width:1.5}</style>
-<g fill="url(#art)" stroke="#ed98bd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="28" r="18"/><path d="m22 44-5 9h30l-5-9Z"/><path class="shine" d="m32 16 3 8 8 3-8 3-3 9-3-9-8-3 8-3Zm-13 2 5-4"/></g>
+<g fill="url(#art)" stroke="#ed98bd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 46C15 29 32 9 52 10c-1 21-17 35-34 36Z"/><path class="shine" d="m12 54 32-34m-20 22 1-13m4 7 13-1m-8-6 1-10"/></g>
 </svg>

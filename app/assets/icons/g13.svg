@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="tablet" data-palette="amber">
-<title>往昔碑文：過去簡單式</title>
+<title>過去經驗敘述：過去簡單式與常用不規則動詞</title>
 <defs><radialGradient id="bg"><stop stop-color="#75461e"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#fff0b5"/><stop offset=".45" stop-color="#e5b45f"/><stop offset="1" stop-color="#75461e"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#e5b45f" stroke-width="1.2"><rect x="4" y="4" width="56" height="56" rx="15"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#e5b45f" opacity=".15"/>

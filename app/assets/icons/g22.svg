@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="gate" data-palette="amber">
-<title>時序迴廊：時間副詞子句</title>
+<title>步驟與時序：時間子句與操作說明</title>
 <defs><radialGradient id="bg"><stop stop-color="#75461e"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#fff0b5"/><stop offset=".45" stop-color="#e5b45f"/><stop offset="1" stop-color="#75461e"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#e5b45f" stroke-width="1.2"><rect x="4" y="4" width="56" height="56" rx="15"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#e5b45f" opacity=".15"/>

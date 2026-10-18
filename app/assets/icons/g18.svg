@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="echo" data-palette="jade">
-<title>延續回聲：完成進行式與未來完成式</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="chart" data-palette="jade">
+<title>進度回報：完成、進行與下一步整合</title>
 <defs><radialGradient id="bg"><stop stop-color="#236d72"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#d4ffed"/><stop offset=".45" stop-color="#68d5b4"/><stop offset="1" stop-color="#236d72"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#68d5b4" stroke-width="1.2"><path d="M19 3h26l16 16v26L45 61H19L3 45V19Z"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#68d5b4" opacity=".15"/>
 <path d="m9 9 3 3m40 40 3 3M9 55l3-3M52 12l3-3" stroke="#d4ffed" opacity=".65"/>
 <style>.shine{fill:none;stroke:#d4ffed;stroke-width:1.5}</style>
-<g fill="url(#art)" stroke="#68d5b4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="32" r="6"/><path class="shine" d="M32 20q13 12 0 24m7-32q21 20 0 40m-25-30q-7 10 0 20"/></g>
+<g fill="url(#art)" stroke="#68d5b4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13h40v36H12Z"/><path class="shine" d="M19 39V28h6v11m5 0V21h6v18m5 0V17h5v22M19 44h27M32 49v7m-10 0h20"/></g>
 </svg>

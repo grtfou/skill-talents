@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="seal" data-palette="rose">
-<title>條件契印：零條件與第一類條件句</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="fork" data-palette="rose">
+<title>真實條件：零條件與未來條件</title>
 <defs><radialGradient id="bg"><stop stop-color="#843a63"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#ffe2ef"/><stop offset=".45" stop-color="#ed98bd"/><stop offset="1" stop-color="#843a63"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#ed98bd" stroke-width="1.2"><path d="M19 3h26l16 16v26L45 61H19L3 45V19Z"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#ed98bd" opacity=".15"/>
 <path d="m9 9 3 3m40 40 3 3M9 55l3-3M52 12l3-3" stroke="#ffe2ef" opacity=".65"/>
 <style>.shine{fill:none;stroke:#ffe2ef;stroke-width:1.5}</style>
-<g fill="url(#art)" stroke="#ed98bd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="30" r="15"/><path d="m23 43-3 11 12-6 12 6-3-11"/><path class="shine" d="m25 36 7-17 7 17m-11-6h8"/></g>
+<g fill="url(#art)" stroke="#ed98bd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M28 54V35L14 21l6-6 12 13 12-13 6 6-14 14v19Z"/><path class="shine" d="M12 28V13h15m10 0h15v15"/></g>
 </svg>

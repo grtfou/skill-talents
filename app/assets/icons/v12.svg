@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-motif="scroll" data-palette="ice">
-<title>信使卷軸：郵件與辦公詞彙</title>
+<title>郵件與辦公：主旨、附件與待辦</title>
 <defs><radialGradient id="bg"><stop stop-color="#315794"/><stop offset="1" stop-color="#111b20"/></radialGradient><linearGradient id="art" x2=".8" y2="1"><stop stop-color="#e0fcff"/><stop offset=".45" stop-color="#72d9ed"/><stop offset="1" stop-color="#315794"/></linearGradient></defs>
 <g fill="url(#bg)" stroke="#72d9ed" stroke-width="1.2"><path d="M19 3h26l16 16v26L45 61H19L3 45V19Z"/></g>
 <circle cx="32" cy="32" r="24" fill="none" stroke="#72d9ed" opacity=".15"/>
